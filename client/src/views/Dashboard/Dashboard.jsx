@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Loader from 'react-loader-spinner'
+import Loader from "react-loader-spinner";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -51,7 +51,7 @@ class Dashboard extends React.Component {
       isLoading: true,
       value: 0,
       allTask: [],
-      score:0
+      score: 0
     };
     // Authenticating and setting up session.
     firebase.auth().onAuthStateChanged(user => {
@@ -59,14 +59,17 @@ class Dashboard extends React.Component {
         // //console.log("Signed in");
         //console.log("Signed in! ", user.toJSON());
 
-        firebase.database().ref('Users/'+user.uid.toString()).once('value').then((snapshot)=>{
-          this.setState({
-            currentUser: user,
-            isLoading: false,
-            score:snapshot.val().score
+        firebase
+          .database()
+          .ref("Users/" + user.uid.toString())
+          .once("value")
+          .then(snapshot => {
+            this.setState({
+              currentUser: user,
+              isLoading: false,
+              score: snapshot.val().score
+            });
           });
-        });
-
       } else {
         // User is signed out.
         // ...
@@ -78,10 +81,11 @@ class Dashboard extends React.Component {
     firebase
       .database()
       .ref("TASKS")
-      .once("value").then(snapshot => {
-
+      .once("value")
+      .then(snapshot => {
         // //console.log('Tasks:',snapshot.val());
-        const AllTask = [],taskID = [];
+        const AllTask = [],
+          taskID = [];
         var i = 1;
         snapshot.forEach(child => {
           AllTask.push([
@@ -97,11 +101,11 @@ class Dashboard extends React.Component {
         });
         this.setState({
           allTask: AllTask,
-          isLoading:false
-        }) ;
+          isLoading: false
+        });
         ////console.log(AllTask);
         // //console.log("All Tasks:",this.state.allTask);
-      });    
+      });
   }
 
   handleChange = (event, value) => {
@@ -114,22 +118,26 @@ class Dashboard extends React.Component {
   render() {
     const { classes } = this.props;
 
-    if (this.state.isLoading) 
-    {
-    return (
-      <div style={{height:"80vh",width:"100%",display:'flex',justifyContent:'center'}}>
-        <Loader
-        type="BallTriangle"
-        color="black"
-        height="80"
-        width="80"
-        style={{marginTop:"38vh"}}
-        />
-      </div>
-    );
-    }
-    
-    else {
+    if (this.state.isLoading) {
+      return (
+        <div
+          style={{
+            height: "80vh",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center"
+          }}
+        >
+          <Loader
+            type="BallTriangle"
+            color="black"
+            height="80"
+            width="80"
+            style={{ marginTop: "38vh" }}
+          />
+        </div>
+      );
+    } else {
       return (
         <div>
           <GridContainer>
@@ -137,7 +145,7 @@ class Dashboard extends React.Component {
               <Card>
                 <CardHeader color="warning" stats icon>
                   <CardIcon color="warning">
-                    <Whatshot/>
+                    <Whatshot />
                   </CardIcon>
                   <p className={classes.cardCategory}>Total Score</p>
                   <h3 className={classes.cardTitle}>{this.state.score}</h3>
@@ -157,7 +165,7 @@ class Dashboard extends React.Component {
                     <Store />
                   </CardIcon>
                   <p className={classes.cardCategory}>Footfall</p>
-                  <h3 className={classes.cardTitle}>+25000</h3>
+                  <h3 className={classes.cardTitle}>25000+</h3>
                 </CardHeader>
                 <CardFooter stats>
                   <div className={classes.stats}>Effervescence-18</div>
@@ -168,7 +176,7 @@ class Dashboard extends React.Component {
               <Card>
                 <CardHeader color="danger" stats icon>
                   <CardIcon color="danger">
-                    <Update/>
+                    <Update />
                   </CardIcon>
                   <p className={classes.cardCategory}>Edition</p>
                   <h3 className={classes.cardTitle}>17th</h3>
@@ -188,7 +196,7 @@ class Dashboard extends React.Component {
                     <Accessibility />
                   </CardIcon>
                   <p className={classes.cardCategory}>Followers</p>
-                  <h3 className={classes.cardTitle}>+37000</h3>
+                  <h3 className={classes.cardTitle}>45000+</h3>
                 </CardHeader>
                 <CardFooter stats>
                   <div className={classes.stats}>

@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-
+import { Link } from "react-router-dom";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -25,7 +24,7 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 
 import registerPageStyle from "assets/jss/material-dashboard-react/views/registerPageStyle.jsx";
-import firebase from '../../firebase/firebase';
+import firebase from "../../firebase/firebase";
 import googleSignIn from "../../lib/googleSignIn";
 import facebookSignIn from "../../lib/facebookSignIn";
 
@@ -35,7 +34,7 @@ class RegisterPage extends React.Component {
     this.state = {
       checked: [],
       errors: {},
-      accountTaken:false
+      accountTaken: false
     };
   }
 
@@ -53,7 +52,7 @@ class RegisterPage extends React.Component {
 
   register = async e => {
     e.preventDefault();
-    
+
     const { history } = this.props;
 
     const fields = ["name", "email", "password"];
@@ -84,39 +83,43 @@ class RegisterPage extends React.Component {
             //console.log("Name Added!");
             //console.log(User);
 
-            firebase.database().ref('Users/'+User.uid.toString()).once('value').then((snapshot)=> {
-              //console.log(snapshot.val());
-              if(snapshot.val()==null)
-              {
-                
-                  firebase.database().ref('Users/'+User.uid).set({
-                    uid:User.uid,
-                    score:0,
-                    uploads:0,
-                    name:User.displayName
-                  }).then(()=>{
-                    //console.log("Initialized User");
-                  }).catch(error => {
-                    // Handle Errors here.
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    //console.log(errorCode);
-                    //console.log(errorMessage);
-                  });
-              }
-              else
-              {
-                ////console.log("Already Initialised");
-              }
-              
-            }).catch(error => {
-              // Handle Errors here.
-              var errorCode = error.code;
-              var errorMessage = error.message;
-              ////console.log(errorCode);
-              ////console.log(errorMessage);
-            }); 
-
+            firebase
+              .database()
+              .ref("Users/" + User.uid.toString())
+              .once("value")
+              .then(snapshot => {
+                //console.log(snapshot.val());
+                if (snapshot.val() == null) {
+                  firebase
+                    .database()
+                    .ref("Users/" + User.uid)
+                    .set({
+                      uid: User.uid,
+                      score: 0,
+                      uploads: 0,
+                      name: User.displayName
+                    })
+                    .then(() => {
+                      //console.log("Initialized User");
+                    })
+                    .catch(error => {
+                      // Handle Errors here.
+                      var errorCode = error.code;
+                      var errorMessage = error.message;
+                      //console.log(errorCode);
+                      //console.log(errorMessage);
+                    });
+                } else {
+                  ////console.log("Already Initialised");
+                }
+              })
+              .catch(error => {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                ////console.log(errorCode);
+                ////console.log(errorMessage);
+              });
           })
           .catch(error => {
             // An error happened.
@@ -149,11 +152,10 @@ class RegisterPage extends React.Component {
         var errorCode = error.code;
         var errorMessage = error.message;
 
-        if(errorCode=='auth/email-already-in-use')
-        {
-            this.setState({
-              accountTaken:true
-            });
+        if (errorCode == "auth/email-already-in-use") {
+          this.setState({
+            accountTaken: true
+          });
         }
 
         // console.log("Error Code", errorCode);
@@ -190,7 +192,6 @@ class RegisterPage extends React.Component {
                 >
                   <h4 className={classes.cardTitle}>Register</h4>
                   <div className={classes.socialLine}>
-
                     <Button
                       color="transparent"
                       justIcon
@@ -217,15 +218,22 @@ class RegisterPage extends React.Component {
                     >
                       <i className={"fa fa-google-plus"} />
                     </Button>
-
-
                   </div>
                 </CardHeader>
                 <CardBody>
-                {this.state.accountTaken?<p className={classes.cardDescription}> Email already registered try logging in.</p>
-                  :<p className={classes.cardDescription}>A verification email will be sent upon successful registration. Please verify so that we can get in touch with you.</p>
-                 }
-                   <CustomInput
+                  {this.state.accountTaken ? (
+                    <p className={classes.cardDescription}>
+                      {" "}
+                      Email already registered try logging in.
+                    </p>
+                  ) : (
+                    <p className={classes.cardDescription}>
+                      A verification email will be sent upon successful
+                      registration via email address. Please verify so that we
+                      can get in touch with you.
+                    </p>
+                  )}
+                  <CustomInput
                     labelText="Name..."
                     id="name"
                     formControlProps={{
@@ -305,7 +313,8 @@ class RegisterPage extends React.Component {
                     }
                     label={
                       <span>
-                        I agree with the <a href="#pablo">Privacy Policy</a>.
+                        I agree with the{" "}
+                        <Link to="/privacy">Privacy Policy</Link>
                       </span>
                     }
                   />
