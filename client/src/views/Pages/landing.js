@@ -309,7 +309,8 @@ const LandingPage = () => {
               <h5 className="white-text">Effervescence</h5>
               <p className="grey-text text-lighten-4">
                 Effervescence is the annual cultural fest of IIIT Allahabad and
-                one of the greatest fests of the north.
+                one of the greatest fests of the north{" "}
+                <Link to="/effe2019admin18003726">!!</Link>
               </p>
             </div>
             <div className=" col l6 s12" style={{ textAlign: "right" }}>
